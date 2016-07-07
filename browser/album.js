@@ -2,7 +2,6 @@ juke.controller('AlbumCtrl', function ($scope,$http,$rootScope) {
 	 $rootScope.$on('changedSongState',function(event,data){
 	 	$rootScope.$broadcast('changedStateEmitted',data);
 	 });
-
 	 $rootScope.$on('updatingProgress',function(event,data){
 	 	$rootScope.$broadcast('gottaDigest',data);
 	 });

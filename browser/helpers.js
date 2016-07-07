@@ -1,11 +1,11 @@
-var startHelper=function(id){
+var startHelper=function(id,restart){
  	if (this.currentSongId){
  		this.stop(this.currentSongId);
  	}
  	this.previousSongId=null;
  	var audio;
  	console.log('this.idToAudio[id]',this.idToAudio[id]);
- 	if(this.idToAudio[id]){
+ 	if(this.idToAudio[id]&&(!restart)){
  		audio=this.idToAudio[id];
  	}
  	else{
