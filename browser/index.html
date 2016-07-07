@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Juke</title>
+    <script src="/angular/angular.min.js"></script>
+    <script src="/juke.js"></script> 
+    <script src="/helpers.js"></script> 
+    <script src="/album.js"></script>
+    <script src="/player.js"></script>
+    <link href="/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="/bootstrap-dark.css" rel="stylesheet" />
+    <link href="/style.css" rel="stylesheet" />
+  </head>
+  <body ng-app="juke">
+    <div id="main" class="container-fluid">
+
+
+      <div class="col-xs-2">
+        <sidebar>
+          <img src="juke.svg" class="logo">
+          <section>
+            <h4 class="menu-item active">
+              <a href="#">ALBUMS</a>
+            </h4>
+          </section>
+        </sidebar>
+      </div>
+
+      <div class="col-xs-10">
+        
+        <div class="album" ng-controller="AlbumCtrl">
+          <p>
+            <h3>{{album.name}}</h3>
+            <img src='{{album.imageUrl}}'>
+          </p>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Artists</th>
+                <th>Genres</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr ng-repeat='song in album.songs' ng-class='{active:song.id===currentSongId||song.id===previousSongId}'> 
+                <td>
+                  <button class="btn btn-default btn-xs" ng-click='song.id===currentSongId? stop(song.id) : start(song.id)'>
+                    <span ng-class='{glyphicon: true, "glyphicon-play": song.id!==currentSongId, "glyphicon-pause": song.id===currentSongId}'></span>
+                  </button>
+                </td>
+                <td>{{song.name}}</td>
+                <td><text ng-repeat='artist in song.artists'>{{artist.name}}{{$last ? '' : ', '}}</text></td>
+                <td><text ng-repeat='genre in song.genres'>{{genre}}{{$last ? '' : ', '}}</text></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <footer ng-controller="PlayerCtrl">
+        <div ng-hide='noSongsPlayedYet'>
+          <div class="pull-left">
+            <button class="btn btn-default" ng-click='previous(currentSongId || previousSongId)'>
+              <span class="glyphicon glyphicon-step-backward"></span>
+            </button>
+            <button class="btn btn-default" ng-click='anySongPlaying? stop(currentSongId) : start(previousSongId)'>
+              <span ng-class='{glyphicon: true, "glyphicon-play": !anySongPlaying, "glyphicon-pause": anySongPlaying}'></span>
+            </button>
+            <button class="btn btn-default" ng-click='next(currentSongId || previousSongId)'>
+              <span class="glyphicon glyphicon-step-forward" ></span>
+            </button>
+          </div>
+          <div class="bar">
+              <div class="progress">
+                <div class="progress-bar" ng-style="{width: progress + '%'}"></div>
+              </div>
+            </div>
+        </div>
+
+      </footer>
+
+    </div>
+  </body>
+</html>
